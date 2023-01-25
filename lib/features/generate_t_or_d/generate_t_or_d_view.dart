@@ -56,6 +56,7 @@ Widget gridItem(String name) {
       child: AppText(
         name,
         color: Colors.black,
+        size: 25,
       ),
     ),
   );

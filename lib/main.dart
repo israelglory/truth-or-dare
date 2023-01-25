@@ -1,4 +1,5 @@
 import 'package:t_or_d/constants/app_colors.dart';
+import 'package:t_or_d/features/play_physical/add_player/add_players_view.dart';
 import 'package:t_or_d/features/t_or_d/bottom_nav_view.dart';
 import 'package:t_or_d/onboarding/splash/splash_screen.dart';
 import 'package:t_or_d/routes/exports.dart';
@@ -13,12 +14,12 @@ void main() async {
 
   runApp(
     //
-    DevicePreview(
+    /*DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => const MyApp(), // Wrap your app
-    ),
+    ),*/
 
-    // const MyApp(),
+    const MyApp(),
   );
 
   //
@@ -39,13 +40,13 @@ class MyApp extends StatelessWidget {
       //
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.light,
+      //themeMode: ThemeMode.light,
       /*theme: ThemeData(
         primarySwatch: MaterialColor(0xFF10225e, AppColors.primarySwatch),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
       ),*/
-      home: const BottomNavigationView(),
+      home: const SplashScreen(),
       //getPages: RoutesClass.routes,
     );
   }

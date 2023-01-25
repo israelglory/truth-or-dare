@@ -16,7 +16,7 @@ abstract class AppColors {
 
 abstract class _LightColors {
   static const background = Colors.white;
-  static const card = AppColors.cardLight;
+  static const card = Color.fromARGB(255, 255, 255, 255);
 }
 
 abstract class _DarkColors {
@@ -64,6 +64,7 @@ class AppTheme {
   static ThemeData dark() => ThemeData(
         brightness: Brightness.dark,
         visualDensity: visualDensity,
+        primaryColor: AppColors.textLigth,
         textTheme:
             GoogleFonts.interTextTheme().apply(bodyColor: AppColors.textLigth),
         backgroundColor: _DarkColors.background,
@@ -72,6 +73,8 @@ class AppTheme {
           style: ElevatedButton.styleFrom(primary: AppColors.secondary),
         ),
         cardColor: _DarkColors.card,
+        focusColor: Colors.white,
+
         /*textTheme: const TextTheme(
           headline1: TextStyle(
               color: AppColors.textLigth,
