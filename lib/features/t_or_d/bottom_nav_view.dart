@@ -16,10 +16,10 @@ class BottomNavigationView extends StatelessWidget {
         return Scaffold(
           // backgroundColor: Colors.white,
 
-          appBar: AppBar(
+          /*appBar: AppBar(
             title: const AppText('Truth and Dare'),
             centerTitle: true,
-          ),
+          ),*/
           body: controller.children[controller.selectedIndex],
           drawer: drawer(
             context,
@@ -34,10 +34,10 @@ class BottomNavigationView extends StatelessWidget {
             showSelectedLabels: true,
             showUnselectedLabels: true,
             selectedLabelStyle: TextStyle(
-              color: isDarkMode ? Colors.white : AppColors.primaryColor,
+              color: AppColors.primaryColor,
             ),
             selectedIconTheme: IconThemeData(
-              color: isDarkMode ? Colors.white : AppColors.primaryColor,
+              color: AppColors.primaryColor,
             ),
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
@@ -58,8 +58,7 @@ class BottomNavigationView extends StatelessWidget {
               ),
             ],
             currentIndex: controller.selectedIndex,
-            selectedItemColor:
-                isDarkMode ? Colors.white : AppColors.primaryColor,
+            selectedItemColor: AppColors.primaryColor,
             onTap: controller.onItemTapped,
           ),
         );

@@ -28,4 +28,5 @@ class AppColors {
   static final Color starColor = fromHex('#F79E1B');
   static final Color cardbg = fromHex('#3A6073');
   static final Color appRed = fromHex('#C0303A');
+  static final Color deepRed = Color.fromARGB(255, 128, 50, 50);
 }

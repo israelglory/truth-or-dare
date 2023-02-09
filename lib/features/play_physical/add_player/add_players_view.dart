@@ -8,13 +8,12 @@ class AddPlayersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isDarkMode = (brightness == Brightness.dark);
     return GetBuilder<AddPlayersController>(
       init: AddPlayersController(),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+            //backgroundColor: Colors.white,
             title: const AppText('Add Players'),
             centerTitle: true,
           ),
@@ -40,9 +39,7 @@ class AddPlayersView extends StatelessWidget {
                     onPressed: () {
                       controller.addPlayer();
                     },
-                    color: isDarkMode
-                        ? Theme.of(context).cardColor
-                        : AppColors.primaryColor,
+                    color: AppColors.primaryColor,
                     radius: 15.0,
                     child: Container(
                       padding: const EdgeInsets.all(12.0),
@@ -82,7 +79,7 @@ class AddPlayersView extends StatelessWidget {
                                     Expanded(
                                       child: AppText(
                                         controller.players[index],
-                                        size: 25,
+                                        size: 20,
                                       ),
                                     ),
                                     InkWell(
@@ -122,9 +119,7 @@ class AddPlayersView extends StatelessWidget {
                   onPressed: () {
                     controller.onContinue();
                   },
-                  color: isDarkMode
-                      ? Theme.of(context).cardColor
-                      : AppColors.primaryColor,
+                  color: AppColors.primaryColor,
                   radius: 20,
                   child: Container(
                     padding: const EdgeInsets.only(top: 20, bottom: 20),

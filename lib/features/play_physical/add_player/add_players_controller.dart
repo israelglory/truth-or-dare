@@ -1,8 +1,9 @@
+import 'package:t_or_d/features/play_physical/wheel_view/wheel_view.dart';
 import 'package:t_or_d/routes/exports.dart';
 
 class AddPlayersController extends GetxController {
   TextEditingController playerNameController = TextEditingController();
-  List<String> players = ['Glory', 'Splash', 'Legend'];
+  List<String> players = [];
 
   void addPlayer() {
     if (playerNameController.text.isNotEmpty) {
@@ -33,6 +34,7 @@ class AddPlayersController extends GetxController {
         isDismissible: true,
       );
     } else {
+      Get.to(() => const WheelView(), arguments: players);
       print('Done');
     }
   }
