@@ -3,15 +3,13 @@ import 'package:t_or_d/components/app_textfield.dart';
 
 import '../../routes/exports.dart';
 
-class JoinRoomDialog extends StatelessWidget {
+class ShowPickedDialog extends StatelessWidget {
   final Function() onPressed;
-  final TextEditingController nameController;
-  final TextEditingController roomIdController;
-  const JoinRoomDialog({
+  final String content;
+  const ShowPickedDialog({
     Key? key,
     required this.onPressed,
-    required this.roomIdController,
-    required this.nameController,
+    required this.content,
   }) : super(key: key);
 
   @override
@@ -21,26 +19,19 @@ class JoinRoomDialog extends StatelessWidget {
       child: Column(
         children: [
           AppText(
-            'Create Room',
+            'Truth or Dare',
             color: AppColors.primaryColor,
             size: 20,
+            alignment: TextAlign.center,
             fontWeight: FontWeight.w600,
           ),
           const SizedBox(
             height: 20,
           ),
-          textAndTextField(
-            controller: nameController,
-            formName: 'Your Name',
-            hintText: 'Splash',
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          textAndTextField(
-            controller: roomIdController,
-            formName: 'Room ID',
-            hintText: 'YwmdjNhDhmsksf',
+          AppText(
+            content,
+            size: 20,
+            alignment: TextAlign.center,
           ),
           const SizedBox(
             height: 16,
@@ -72,9 +63,19 @@ class JoinRoomDialog extends StatelessWidget {
                 color: AppColors.primaryColor,
                 padding: const EdgeInsets.only(top: 18.0, bottom: 18.0),
                 width: 120,
-                onPressed: onPressed,
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: content));
+                  Get.snackbar(
+                    "Success",
+                    '$content Have been copied',
+                    colorText: Colors.white,
+                    dismissDirection: DismissDirection.horizontal,
+                    backgroundColor: AppColors.primaryColor,
+                    snackPosition: SnackPosition.TOP,
+                  );
+                },
                 child: const AppText(
-                  'Join Room',
+                  'Copy',
                   color: Colors.white,
                   size: 14,
                   fontWeight: FontWeight.w400,
@@ -89,32 +90,4 @@ class JoinRoomDialog extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget textAndTextField({
-  required TextEditingController controller,
-  required String formName,
-  String? hintText,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      AppText(
-        formName,
-        size: 14,
-      ),
-      const SizedBox(
-        height: 4,
-      ),
-      AppTextField(
-        textEditingController: controller,
-        hintText: hintText,
-        maxLines: 1,
-        textInputType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-        borderWidth: 2,
-      )
-    ],
-  );
 }

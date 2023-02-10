@@ -22,10 +22,32 @@ class GenerateTorDView extends StatelessWidget {
               mainAxisSpacing: 10,
               crossAxisCount: 2,
               children: [
-                gridItem('TRUTH'),
-                gridItem('DARE'),
-                gridItem('Would You Rather'),
-                gridItem('Never Have I Ever')
+                InkWell(
+                  onTap: () async {
+                    await controller.getTruth();
+                  },
+                  child: gridItem('TRUTH'),
+                ),
+                InkWell(
+                  onTap: () async {
+                    await controller.getDare();
+                  },
+                  child: gridItem('DARE'),
+                ),
+                InkWell(
+                  onTap: () async {
+                    await controller.getwyr();
+                  },
+                  child: gridItem(
+                    'Would You Rather',
+                  ),
+                ),
+                InkWell(
+                  onTap: () async {
+                    await controller.getNhie();
+                  },
+                  child: gridItem('Never Have I Ever'),
+                )
               ],
             ),
           ),

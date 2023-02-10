@@ -22,18 +22,18 @@ class PlayOnlineView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: AppText(
                   'Play with your friends online. Have the upmost fun you can ever have together.',
                   alignment: TextAlign.center,
                   size: 16,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Padding(
@@ -68,7 +68,7 @@ class PlayOnlineView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Padding(

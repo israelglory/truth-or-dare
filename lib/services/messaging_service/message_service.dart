@@ -60,6 +60,14 @@ class MessagingService {
       );
     });
   }
+
+  Stream<DocumentSnapshot> getlatestQuestionStream(String groupChatId) {
+    return firebaseFirestore
+        .collection(FirestoreConstants.pathMessageCollection)
+        .doc(groupChatId)
+        .get()
+        .asStream();
+  }
 }
 
 class TypeMessage {

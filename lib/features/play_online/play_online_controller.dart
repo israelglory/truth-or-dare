@@ -159,6 +159,7 @@ class PlayOnlineController extends GetxController {
         'group_creator': nameTextEditingController.text,
         'group_Id': uid,
         'room_name': roomNameTextEditingController.text,
+        'latest_question': 'Ask a question'
       },
     );
   }

@@ -10,6 +10,7 @@ import 'package:t_or_d/components/chat_app_bar.dart';
 import 'package:t_or_d/components/chat_bubbles.dart';
 import 'package:t_or_d/features/chat_screen/chat_screen_viewmodel.dart';
 import 'package:t_or_d/models/message_chat.dart';
+import 'package:t_or_d/models/t_or_d_models/latest_question_model.dart';
 import 'package:t_or_d/routes/exports.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -38,11 +39,21 @@ class ChatScreen extends StatelessWidget {
                   color: Colors.white,
                   padding: EdgeInsets.all(12.0),
                   child: Center(
-                    child: AppText(
-                      'Pick an Option',
-                      size: 16,
-                      alignment: TextAlign.center,
-                      fontWeight: FontWeight.w500,
+                    child: StreamBuilder(
+                      stream: controller.chatService.getlatestQuestionStream(
+                        controller.currentUser.currentRoomId,
+                      ),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot<Object?>> snapshot) {
+                        LatestQuestion content =
+                            LatestQuestion.fromDocument(snapshot.data!);
+                        return AppText(
+                          content.content,
+                          size: 16,
+                          alignment: TextAlign.center,
+                          fontWeight: FontWeight.w500,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -105,34 +116,49 @@ class ChatScreen extends StatelessWidget {
                       spacing: 8.0,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: AppColors.primaryColor),
-                          child: AppText(
-                            'Truth',
-                            color: Colors.white,
+                        InkWell(
+                          onTap: () async {
+                            await controller.getAndSendQuestion('truth');
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: AppColors.primaryColor),
+                            child: AppText(
+                              'Truth',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: AppColors.primaryColor),
-                          child: AppText(
-                            'Would You Rather',
-                            color: Colors.white,
+                        InkWell(
+                          onTap: () async {
+                            await controller.getAndSendQuestion('wyr');
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: AppColors.primaryColor),
+                            child: AppText(
+                              'Would You Rather',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: AppColors.primaryColor),
-                          child: AppText(
-                            'Never Have I Ever',
-                            color: Colors.white,
+                        InkWell(
+                          onTap: () async {
+                            await controller.getAndSendQuestion('nhie');
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: AppColors.primaryColor),
+                            child: AppText(
+                              'Never Have I Ever',
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
