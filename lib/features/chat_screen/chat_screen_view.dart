@@ -29,6 +29,7 @@ class ChatScreen extends StatelessWidget {
         return Scaffold(
           appBar: ChatAppBar(
             roomName: 'Cruise Land',
+            chatId: controller.currentUser.currentRoomId,
           ),
           body: SafeArea(
             top: true,
@@ -61,52 +62,55 @@ class ChatScreen extends StatelessWidget {
                   child: _DemoMessageList(),
                 ),*/
                 Flexible(
-                    child: StreamBuilder<QuerySnapshot>(
-                  stream: controller.chatService.getChatStream(
-                      controller.currentUser.currentRoomId, controller.limit),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasData) {
-                      controller.listMessage = snapshot.data!.docs;
-                      if (controller.listMessage.isNotEmpty) {
-                        return ListView.separated(
-                          padding: const EdgeInsets.all(10),
-                          itemBuilder: (context, index) {
-                            MessageChat messageChat = MessageChat.fromDocument(
-                                snapshot.data?.docs[index] as DocumentSnapshot);
-                            print(messageChat.timestamp);
-                            final time =
-                                Jiffy(messageChat.timestamp).format('h:mm a');
-                            return TextMessage(
-                              isUser: messageChat.idFrom ==
-                                  controller.currentUser.uId,
-                              message: messageChat.content,
-                              time: time,
-                            );
-                          },
-                          itemCount: snapshot.data!.docs.length,
-                          reverse: true,
-                          controller: controller.listScrollController,
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const SizedBox(
-                              height: 5,
-                            );
-                          },
-                        );
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: controller.chatService.getChatStream(
+                        controller.currentUser.currentRoomId, controller.limit),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        controller.listMessage = snapshot.data!.docs;
+                        if (controller.listMessage.isNotEmpty) {
+                          return ListView.separated(
+                            padding: const EdgeInsets.all(10),
+                            itemBuilder: (context, index) {
+                              MessageChat messageChat =
+                                  MessageChat.fromDocument(snapshot
+                                      .data?.docs[index] as DocumentSnapshot);
+                              print(messageChat.timestamp);
+                              final time =
+                                  Jiffy(messageChat.timestamp).format('h:mm a');
+                              return TextMessage(
+                                isUser: messageChat.idFrom ==
+                                    controller.currentUser.uId,
+                                message: messageChat.content,
+                                time: time,
+                              );
+                            },
+                            itemCount: snapshot.data!.docs.length,
+                            reverse: true,
+                            controller: controller.listScrollController,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 5,
+                              );
+                            },
+                          );
+                        } else {
+                          return const Center(
+                            child: Text(
+                              "No message here yet...",
+                            ),
+                          );
+                        }
                       } else {
                         return const Center(
-                          child: Text(
-                            "No message here yet...",
-                          ),
+                          child: CircularProgressIndicator(),
                         );
                       }
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                )),
+                    },
+                  ),
+                ),
                 Container(
                   color: Colors.white,
                   width: double.infinity,

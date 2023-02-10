@@ -164,7 +164,7 @@ class ChatScreenViewModel extends GetxController {
       }
     } else if (type == 'wyr') {
       try {
-        final wyr = await tordRepo.truth();
+        final wyr = await tordRepo.wouldYouRather();
         await FirebaseFirestore.instance
             .collection(FirestoreConstants.pathMessageCollection)
             .doc(currentUser.currentRoomId)
@@ -185,7 +185,7 @@ class ChatScreenViewModel extends GetxController {
       }
     } else {
       try {
-        final nhie = await tordRepo.truth();
+        final nhie = await tordRepo.neverHaveIEver();
         await FirebaseFirestore.instance
             .collection(FirestoreConstants.pathMessageCollection)
             .doc(currentUser.currentRoomId)

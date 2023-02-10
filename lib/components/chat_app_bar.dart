@@ -5,13 +5,13 @@ import 'package:t_or_d/routes/exports.dart';
 class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatAppBar({
     Key? key,
-    //required this.chatId,
+    required this.chatId,
     required this.roomName,
   }) : super(key: key);
 
   // final MessageData messageData;
 
-  //final String chatId;
+  final String chatId;
 
   final String roomName;
 
@@ -47,7 +47,7 @@ class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
                 Navigator.of(context).pop();
               },
             ),
-            Avatar.medium(
+            const Avatar.medium(
               url: '',
             ),
             const SizedBox(
@@ -66,6 +66,23 @@ class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(text: chatId));
+                Get.snackbar(
+                  "Success",
+                  '$chatId Have been copied',
+                  colorText: Colors.white,
+                  dismissDirection: DismissDirection.horizontal,
+                  backgroundColor: AppColors.primaryColor,
+                  snackPosition: SnackPosition.TOP,
+                );
+              },
+              icon: const Icon(
+                Icons.copy,
+                color: Colors.white,
               ),
             ),
           ],

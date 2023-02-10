@@ -61,12 +61,12 @@ class MessagingService {
     });
   }
 
-  Stream<DocumentSnapshot> getlatestQuestionStream(String groupChatId) {
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getlatestQuestionStream(
+      String groupChatId) {
     return firebaseFirestore
         .collection(FirestoreConstants.pathMessageCollection)
         .doc(groupChatId)
-        .get()
-        .asStream();
+        .snapshots();
   }
 }
 
