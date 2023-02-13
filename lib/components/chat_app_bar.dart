@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:t_or_d/components/avatar.dart';
 import 'package:t_or_d/routes/exports.dart';
+import 'package:t_or_d/services/messaging_service/message_service.dart';
 
 class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
   const ChatAppBar({
@@ -53,21 +54,27 @@ class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
             const SizedBox(
               width: 16,
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    roomName,
-                    size: 18,
-                    maxLines: 1,
-                    color: Colors.white,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                StreamBuilder(
+                  stream: MessagingService().getlatestQuestionStream(chatId),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    return AppText(
+                      snapshot.data!['room_name'],
+                      size: 18,
+                      maxLines: 1,
+                      color: Colors.white,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  },
+                ),
+              ],
             ),
+            Spacer(),
             IconButton(
               onPressed: () async {
                 await Clipboard.setData(ClipboardData(text: chatId));

@@ -13,6 +13,7 @@ class PlayOnlineController extends GetxController {
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController roomIdTextEditingController = TextEditingController();
   TextEditingController roomNameTextEditingController = TextEditingController();
+  bool inProgress = false;
 
   Future<void> onCreateRoom() async {
     Get.defaultDialog(
@@ -45,6 +46,8 @@ class PlayOnlineController extends GetxController {
           } else {
             final roomId = getRandomNumber();
             try {
+              inProgress = true;
+              update();
               final userCredential =
                   await FirebaseAuth.instance.signInAnonymously();
 
@@ -55,8 +58,12 @@ class PlayOnlineController extends GetxController {
                     yourName: nameTextEditingController.text,
                     uId: userCredential.user!.uid),
               );
+              inProgress = false;
+              update();
               Get.to(() => const ChatScreen());
             } on Exception catch (e) {
+              inProgress = false;
+              update();
               log(e.toString());
               Get.snackbar(
                 "Error",
@@ -113,6 +120,8 @@ class PlayOnlineController extends GetxController {
               snackPosition: SnackPosition.TOP,
             );
           } else {
+            inProgress = true;
+            update();
             final userCredential =
                 await FirebaseAuth.instance.signInAnonymously();
             print(userCredential.user!.uid);
@@ -129,9 +138,13 @@ class PlayOnlineController extends GetxController {
                   uId: userCredential.user!.uid,
                 ),
               );
+              inProgress = false;
+              update();
               Get.to(() => const ChatScreen());
               update();
             } else {
+              inProgress = false;
+              update();
               Get.snackbar(
                 "Error",
                 'Invalid Room number',

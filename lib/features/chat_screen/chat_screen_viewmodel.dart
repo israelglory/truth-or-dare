@@ -6,6 +6,7 @@ import 'package:t_or_d/constants/firebase_constants.dart';
 import 'package:t_or_d/data/local/localstorage.dart';
 import 'package:t_or_d/data/repository/repo_implementation/t_or_d_repo_impl.dart';
 import 'package:t_or_d/models/room_user_model.dart';
+import 'package:t_or_d/models/t_or_d_models/room_model.dart';
 import 'package:t_or_d/routes/exports.dart';
 import 'package:t_or_d/services/messaging_service/message_service.dart';
 
@@ -16,6 +17,8 @@ class ChatScreenViewModel extends GetxController {
   final TextEditingController textEditingController = TextEditingController();
   String currentUserId = '';
   TruthOrDareRepoImpl tordRepo = TruthOrDareRepoImpl();
+  bool inProgress = false;
+  RoomModel rooomData = RoomModel();
 
   List<QueryDocumentSnapshot> listMessage = [];
   int limit = 20;
@@ -27,9 +30,11 @@ class ChatScreenViewModel extends GetxController {
   bool isShowSticker = false;
   String imageUrl = "";
 
-  void initState(String initpeerId) {
+  @override
+  void initState() async {
     focusNode.addListener(onFocusChange);
     listScrollController.addListener(_scrollListener);
+    await currentRoomData();
     //readLocal();
     update();
   }
@@ -143,7 +148,10 @@ class ChatScreenViewModel extends GetxController {
   Future<void> getAndSendQuestion(String type) async {
     if (type == 'truth') {
       try {
+        inProgress = true;
+        update();
         final truth = await tordRepo.truth();
+
         await FirebaseFirestore.instance
             .collection(FirestoreConstants.pathMessageCollection)
             .doc(currentUser.currentRoomId)
@@ -152,7 +160,11 @@ class ChatScreenViewModel extends GetxController {
             'latest_question': '${currentUser.yourName}: ${truth.question}',
           },
         );
+        inProgress = false;
+        update();
       } on Exception catch (e) {
+        inProgress = false;
+        update();
         Get.snackbar(
           "Error",
           'Something Went Wrong',
@@ -164,6 +176,8 @@ class ChatScreenViewModel extends GetxController {
       }
     } else if (type == 'wyr') {
       try {
+        inProgress = true;
+        update();
         final wyr = await tordRepo.wouldYouRather();
         await FirebaseFirestore.instance
             .collection(FirestoreConstants.pathMessageCollection)
@@ -173,7 +187,11 @@ class ChatScreenViewModel extends GetxController {
             'latest_question': '${currentUser.yourName}: ${wyr.question}',
           },
         );
+        inProgress = false;
+        update();
       } on Exception catch (e) {
+        inProgress = false;
+        update();
         Get.snackbar(
           "Error",
           'Something Went Wrong',
@@ -185,6 +203,8 @@ class ChatScreenViewModel extends GetxController {
       }
     } else {
       try {
+        inProgress = true;
+        update();
         final nhie = await tordRepo.neverHaveIEver();
         await FirebaseFirestore.instance
             .collection(FirestoreConstants.pathMessageCollection)
@@ -194,7 +214,11 @@ class ChatScreenViewModel extends GetxController {
             'latest_question': '${currentUser.yourName}: ${nhie.question}',
           },
         );
+        inProgress = false;
+        update();
       } on Exception catch (e) {
+        inProgress = false;
+        update();
         Get.snackbar(
           "Error",
           'Something Went Wrong',
@@ -205,6 +229,33 @@ class ChatScreenViewModel extends GetxController {
         );
       }
     }
+  }
+
+  Future<void> currentRoomData() async {
+    final userinfo = await getUserData();
+
+    rooomData = RoomModel(
+      roomName: userinfo['room_name'],
+      creator: userinfo['group_creator'],
+      groupId: userinfo['group_Id'],
+      latestQuestion: userinfo['latest_question'],
+    );
+  }
+
+  /// We can get user data through this function
+  Future getUserData() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('messages')
+        .doc(currentUser.currentRoomId);
+
+    final userData = docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data();
+        return data;
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+    return userData;
   }
 
   RoomUserModel get currentUser => LocalStorage().getRoomUserState();

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:t_or_d/components/bottom_chat.dart';
 
 import 'package:t_or_d/components/chat_app_bar.dart';
@@ -28,159 +29,155 @@ class ChatScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: ChatAppBar(
-            roomName: 'Cruise Land',
+            roomName: controller.rooomData.roomName ?? 'No name',
             chatId: controller.currentUser.currentRoomId,
           ),
-          body: SafeArea(
-            top: true,
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  color: Colors.white,
-                  padding: EdgeInsets.all(12.0),
-                  child: Center(
-                    child: StreamBuilder(
-                      stream: controller.chatService.getlatestQuestionStream(
-                        controller.currentUser.currentRoomId,
-                      ),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot<Object?>> snapshot) {
-                        LatestQuestion content =
-                            LatestQuestion.fromDocument(snapshot.data!);
-                        return AppText(
-                          content.content,
-                          size: 16,
-                          alignment: TextAlign.center,
-                          fontWeight: FontWeight.w500,
-                        );
-                      },
+          body: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                color: Colors.white,
+                //height: 70,
+                padding: EdgeInsets.all(12.0),
+                child: Center(
+                  child: StreamBuilder(
+                    stream: controller.chatService.getlatestQuestionStream(
+                      controller.currentUser.currentRoomId,
                     ),
-                  ),
-                ),
-                /*Expanded(
-                  child: _DemoMessageList(),
-                ),*/
-                Flexible(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: controller.chatService.getChatStream(
-                        controller.currentUser.currentRoomId, controller.limit),
                     builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        controller.listMessage = snapshot.data!.docs;
-                        if (controller.listMessage.isNotEmpty) {
-                          return ListView.separated(
-                            padding: const EdgeInsets.all(10),
-                            itemBuilder: (context, index) {
-                              MessageChat messageChat =
-                                  MessageChat.fromDocument(snapshot
-                                      .data?.docs[index] as DocumentSnapshot);
-                              print(messageChat.timestamp);
-                              final time =
-                                  Jiffy(messageChat.timestamp).format('h:mm a');
-                              return TextMessage(
-                                isUser: messageChat.idFrom ==
-                                    controller.currentUser.uId,
-                                message: messageChat.content,
-                                time: time,
-                              );
-                            },
-                            itemCount: snapshot.data!.docs.length,
-                            reverse: true,
-                            controller: controller.listScrollController,
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const SizedBox(
-                                height: 5,
-                              );
-                            },
-                          );
-                        } else {
-                          return const Center(
-                            child: Text(
-                              "No message here yet...",
-                            ),
-                          );
-                        }
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+                        AsyncSnapshot<DocumentSnapshot<Object?>> snapshot) {
+                      LatestQuestion content =
+                          LatestQuestion.fromDocument(snapshot.data!);
+                      return AppText(
+                        content.content,
+                        size: 16,
+                        alignment: TextAlign.center,
+                        fontWeight: FontWeight.w500,
+                      );
                     },
                   ),
                 ),
-                Container(
-                  color: Colors.white,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  child: Center(
-                    child: Wrap(
-                      spacing: 8.0,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            await controller.getAndSendQuestion('truth');
+              ),
+              /*Expanded(
+                child: _DemoMessageList(),
+              ),*/
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: controller.chatService.getChatStream(
+                      controller.currentUser.currentRoomId, controller.limit),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      controller.listMessage = snapshot.data!.docs;
+                      if (controller.listMessage.isNotEmpty) {
+                        return ListView.separated(
+                          padding: const EdgeInsets.all(10),
+                          itemBuilder: (context, index) {
+                            MessageChat messageChat = MessageChat.fromDocument(
+                                snapshot.data?.docs[index] as DocumentSnapshot);
+                            print(messageChat.timestamp);
+                            final time =
+                                Jiffy(messageChat.timestamp).format('h:mm a');
+                            return TextMessage(
+                              isUser: messageChat.idFrom ==
+                                  controller.currentUser.uId,
+                              message: messageChat.content,
+                              time: time,
+                            );
                           },
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: AppColors.primaryColor),
-                            child: AppText(
-                              'Truth',
-                              color: Colors.white,
-                            ),
+                          itemCount: snapshot.data!.docs.length,
+                          reverse: true,
+                          controller: controller.listScrollController,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const SizedBox(
+                              height: 5,
+                            );
+                          },
+                        );
+                      } else {
+                        return const Center(
+                          child: Text(
+                            "No message here yet...",
+                          ),
+                        );
+                      }
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+              ),
+              Container(
+                color: Colors.white,
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                child: Center(
+                  child: Wrap(
+                    spacing: 8.0,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          await controller.getAndSendQuestion('truth');
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppColors.primaryColor),
+                          child: AppText(
+                            'Truth',
+                            color: Colors.white,
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            await controller.getAndSendQuestion('wyr');
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: AppColors.primaryColor),
-                            child: AppText(
-                              'Would You Rather',
-                              color: Colors.white,
-                            ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await controller.getAndSendQuestion('wyr');
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppColors.primaryColor),
+                          child: AppText(
+                            'Would You Rather',
+                            color: Colors.white,
                           ),
                         ),
-                        InkWell(
-                          onTap: () async {
-                            await controller.getAndSendQuestion('nhie');
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: AppColors.primaryColor),
-                            child: AppText(
-                              'Never Have I Ever',
-                              color: Colors.white,
-                            ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          await controller.getAndSendQuestion('nhie');
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppColors.primaryColor),
+                          child: AppText(
+                            'Never Have I Ever',
+                            color: Colors.white,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                BottomChat(
-                  onPressed: () {
-                    controller.onSendMessage(
-                        controller.textEditingController.text, 0);
-                  },
-                  txt: controller.textEditingController,
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              BottomChat(
+                onPressed: () {
+                  controller.onSendMessage(
+                      controller.textEditingController.text, 0);
+                },
+                txt: controller.textEditingController,
+              ),
+            ],
           ),
         );
       },
