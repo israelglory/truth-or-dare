@@ -11,8 +11,6 @@ class BottomNavigationView extends StatelessWidget {
     return GetBuilder<BottomNavController>(
       init: BottomNavController(),
       builder: (controller) {
-        var brightness = MediaQuery.of(context).platformBrightness;
-        bool isDarkMode = (brightness == Brightness.dark);
         return Scaffold(
           // backgroundColor: Colors.white,
 

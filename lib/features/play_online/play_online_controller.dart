@@ -124,7 +124,7 @@ class PlayOnlineController extends GetxController {
             update();
             final userCredential =
                 await FirebaseAuth.instance.signInAnonymously();
-            print(userCredential.user!.uid);
+            log(userCredential.user!.uid);
             final docRef = FirebaseFirestore.instance
                 .collection('messages')
                 .doc(roomIdTextEditingController.text);

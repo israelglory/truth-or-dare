@@ -1,10 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:loader_overlay/loader_overlay.dart';
+
 import 'package:t_or_d/components/bottom_chat.dart';
 
 import 'package:t_or_d/components/chat_app_bar.dart';
@@ -75,7 +71,7 @@ class ChatScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             MessageChat messageChat = MessageChat.fromDocument(
                                 snapshot.data?.docs[index] as DocumentSnapshot);
-                            print(messageChat.timestamp);
+
                             final time =
                                 Jiffy(messageChat.timestamp).format('h:mm a');
                             return TextMessage(

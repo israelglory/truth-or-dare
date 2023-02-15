@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:t_or_d/components/dialogs/show_picked_option.dart';
 import 'package:t_or_d/data/repository/repo_implementation/t_or_d_repo_impl.dart';
 import 'package:t_or_d/routes/exports.dart';
@@ -28,6 +30,7 @@ class GenerateTorDController extends GetxController {
             content: truth.question ?? 'Error Please genrate again'),
       );
     } on Exception catch (e) {
+      log(e.toString());
       truthInProgress = false;
       update();
       Get.snackbar(
@@ -70,6 +73,7 @@ class GenerateTorDController extends GetxController {
         backgroundColor: AppColors.appRed,
         snackPosition: SnackPosition.TOP,
       );
+      log(e.toString());
     }
   }
 
@@ -102,6 +106,7 @@ class GenerateTorDController extends GetxController {
         backgroundColor: AppColors.appRed,
         snackPosition: SnackPosition.TOP,
       );
+      log(e.toString());
     }
   }
 
@@ -134,6 +139,7 @@ class GenerateTorDController extends GetxController {
         backgroundColor: AppColors.appRed,
         snackPosition: SnackPosition.TOP,
       );
+      log(e.toString());
     }
   }
 }

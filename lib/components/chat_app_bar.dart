@@ -74,7 +74,7 @@ class ChatAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
               onPressed: () async {
                 await Clipboard.setData(ClipboardData(text: chatId));

@@ -1,7 +1,6 @@
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:t_or_d/components/app_button.dart';
 import 'package:t_or_d/features/play_online/play_online_controller.dart';
-import 'package:t_or_d/features/play_physical/add_player/add_players_view.dart';
 import 'package:t_or_d/routes/exports.dart';
 
 class PlayOnlineView extends StatelessWidget {
@@ -23,7 +22,7 @@ class PlayOnlineView extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   //color: Colors.,
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: Image.asset(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:t_or_d/features/play_physical/wheel_view/wheel_view.dart';
 import 'package:t_or_d/routes/exports.dart';
 
@@ -20,7 +22,7 @@ class AddPlayersController extends GetxController {
 
   void removePlayer(int index) {
     players.removeAt(index);
-    print('removed');
+    log('removed');
     update();
   }
 
@@ -35,7 +37,7 @@ class AddPlayersController extends GetxController {
       );
     } else {
       Get.to(() => const WheelView(), arguments: players);
-      print('Done');
+      log('Done');
     }
   }
 }

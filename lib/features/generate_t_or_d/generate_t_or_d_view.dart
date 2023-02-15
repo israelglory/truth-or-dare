@@ -1,4 +1,3 @@
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:t_or_d/features/generate_t_or_d/generate_t_or_d_controller.dart';
 import 'package:t_or_d/routes/exports.dart';
 

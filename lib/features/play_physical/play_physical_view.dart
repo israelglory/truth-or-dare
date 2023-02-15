@@ -1,6 +1,3 @@
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:t_or_d/components/app_button.dart';
 import 'package:t_or_d/features/play_physical/add_player/add_players_view.dart';
 import 'package:t_or_d/features/play_physical/play_physical_controller.dart';
@@ -17,7 +14,7 @@ class PlayPhysicalView extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 //color: Colors.,
                 height: MediaQuery.of(context).size.height * 0.75,
                 child: Image.asset(
@@ -25,18 +22,18 @@ class PlayPhysicalView extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20.0,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: AppText(
                   'Play with your friends physically. Have the upmost fun you can ever have together. Click on Play now',
                   alignment: TextAlign.center,
                   size: 16,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16.0,
               ),
               Padding(
