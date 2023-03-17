@@ -1,5 +1,6 @@
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:t_or_d/components/app_button.dart';
+import 'package:t_or_d/components/loading.dart';
 import 'package:t_or_d/features/play_online/play_online_controller.dart';
 import 'package:t_or_d/routes/exports.dart';
 
@@ -114,7 +115,9 @@ class PlayOnlineView extends StatelessWidget {
                 left: 0.0,
                 child: Visibility(
                   visible: controller.inProgress,
-                  child: Container(
+                  child: const Loading(),
+
+                  /*Container(
                     decoration: BoxDecoration(
                       color: Colors.black45,
                     ),
@@ -123,7 +126,7 @@ class PlayOnlineView extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                  ),
+                  ),*/
                 ),
               ),
             ],

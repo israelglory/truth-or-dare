@@ -6,17 +6,14 @@ import 'package:t_or_d/routes/exports.dart';
 
 class GenerateTorDController extends GetxController {
   TruthOrDareRepoImpl tordRepo = TruthOrDareRepoImpl();
-  bool truthInProgress = false;
-  bool dareInProgress = false;
-  bool wyrInProgress = false;
-  bool nhieInProgress = false;
+  bool inProgress = false;
 
   Future<void> getTruth() async {
     try {
-      truthInProgress = true;
+      inProgress = true;
       update();
       final truth = await tordRepo.truth();
-      truthInProgress = false;
+      inProgress = false;
       update();
       Get.defaultDialog(
         title: '',
@@ -31,7 +28,7 @@ class GenerateTorDController extends GetxController {
       );
     } on Exception catch (e) {
       log(e.toString());
-      truthInProgress = false;
+      inProgress = false;
       update();
       Get.snackbar(
         "Error",
@@ -46,10 +43,10 @@ class GenerateTorDController extends GetxController {
 
   Future<void> getDare() async {
     try {
-      dareInProgress = true;
+      inProgress = true;
       update();
       final dare = await tordRepo.dare();
-      dareInProgress = false;
+      inProgress = false;
       update();
       Get.defaultDialog(
         title: '',
@@ -63,7 +60,7 @@ class GenerateTorDController extends GetxController {
             content: dare.question ?? 'Error Please genrate again'),
       );
     } on Exception catch (e) {
-      dareInProgress = false;
+      inProgress = false;
       update();
       Get.snackbar(
         "Error",
@@ -79,10 +76,10 @@ class GenerateTorDController extends GetxController {
 
   Future<void> getwyr() async {
     try {
-      wyrInProgress = true;
+      inProgress = true;
       update();
       final wyr = await tordRepo.wouldYouRather();
-      wyrInProgress = false;
+      inProgress = false;
       update();
       Get.defaultDialog(
         title: '',
@@ -96,7 +93,7 @@ class GenerateTorDController extends GetxController {
             content: wyr.question ?? 'Error Please genrate again'),
       );
     } on Exception catch (e) {
-      wyrInProgress = false;
+      inProgress = false;
       update();
       Get.snackbar(
         "Error",
@@ -112,10 +109,10 @@ class GenerateTorDController extends GetxController {
 
   Future<void> getNhie() async {
     try {
-      nhieInProgress = true;
+      inProgress = true;
       update();
       final nhie = await tordRepo.neverHaveIEver();
-      nhieInProgress = false;
+      inProgress = false;
       update();
       Get.defaultDialog(
         title: '',
@@ -129,7 +126,7 @@ class GenerateTorDController extends GetxController {
             content: nhie.question ?? 'Error Please genrate again'),
       );
     } on Exception catch (e) {
-      nhieInProgress = false;
+      inProgress = false;
       update();
       Get.snackbar(
         "Error",

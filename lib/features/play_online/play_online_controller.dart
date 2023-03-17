@@ -55,9 +55,10 @@ class PlayOnlineController extends GetxController {
               await createRoom(roomId.toString(), userCredential.user!.uid);
               LocalStorage().setRoomUserState(
                 RoomUserModel(
-                    currentRoomId: roomId.toString(),
-                    yourName: nameTextEditingController.text,
-                    uId: userCredential.user!.uid),
+                  currentRoomId: roomId.toString(),
+                  yourName: nameTextEditingController.text,
+                  uId: userCredential.user!.uid,
+                ),
               );
               inProgress = false;
               update();

@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
       ),
-      home: const BottomNavigationView(),
+      home: const SplashScreen(),
       //getPages: RoutesClass.routes,
     );
   }
