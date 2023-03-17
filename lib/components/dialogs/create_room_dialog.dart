@@ -70,14 +70,17 @@ class CreateRoomDialog extends StatelessWidget {
               AppButton(
                 radius: 8,
                 color: AppColors.primaryColor,
-                padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
+                //padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
                 width: 120,
                 onPressed: onPressed,
-                child: const AppText(
-                  'Create Room',
-                  color: Colors.white,
-                  size: 14,
-                  fontWeight: FontWeight.w400,
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: AppText(
+                    'Create Room',
+                    color: Colors.white,
+                    size: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               )
             ],

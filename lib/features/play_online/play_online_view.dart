@@ -11,108 +11,122 @@ class PlayOnlineView extends StatelessWidget {
     return GetBuilder<PlayOnlineController>(
       init: PlayOnlineController(),
       builder: (controller) {
-        return LoaderOverlay(
-          useDefaultLoading: controller.inProgress,
-          overlayWidget: Center(
-            child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
-            ),
-          ),
-          overlayOpacity: 0.8,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  //color: Colors.,
-                  height: MediaQuery.of(context).size.height * 0.75,
-                  child: Image.asset(
-                    'assets/images/fun.jpg',
-                    fit: BoxFit.cover,
+        return SingleChildScrollView(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    //color: Colors.,
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    child: Image.asset(
+                      'assets/images/fun.jpg',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: AppText(
-                    'Play with your friends online. Have the upmost fun you can ever have together.',
-                    alignment: TextAlign.center,
-                    size: 16,
+                  const SizedBox(
+                    height: 16.0,
                   ),
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: AppButton(
-                    radius: 50,
-                    onPressed: () async {
-                      await controller.onJoinRoom();
-                      //Get.to(() => const AddPlayersView());
-                    },
-                    color: AppColors.primaryColor,
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          AppText(
-                            'Join Room',
-                            size: 22,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Icon(
-                            Icons.group,
-                            color: Colors.white,
-                          )
-                        ],
+                  const Padding(
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: AppText(
+                      'Play with your friends online. Have the upmost fun you can ever have together.',
+                      alignment: TextAlign.center,
+                      size: 16,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: AppButton(
+                      radius: 50,
+                      onPressed: () async {
+                        await controller.onJoinRoom();
+                        //Get.to(() => const AddPlayersView());
+                      },
+                      color: AppColors.primaryColor,
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            AppText(
+                              'Join Room',
+                              size: 22,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Icon(
+                              Icons.group,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: AppButton(
+                      radius: 50,
+                      onPressed: () async {
+                        await controller.onCreateRoom();
+                        // Get.to(() => const AddPlayersView());
+                      },
+                      color: AppColors.appRed,
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            AppText(
+                              'Create room',
+                              size: 22,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Icon(
+                              Icons.group_add_rounded,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                bottom: 0.0,
+                top: 0.0,
+                right: 0.0,
+                left: 0.0,
+                child: Visibility(
+                  visible: controller.inProgress,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black45,
+                    ),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: AppButton(
-                    radius: 50,
-                    onPressed: () async {
-                      await controller.onCreateRoom();
-                      // Get.to(() => const AddPlayersView());
-                    },
-                    color: AppColors.appRed,
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          AppText(
-                            'Create room',
-                            size: 22,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Icon(
-                            Icons.group_add_rounded,
-                            color: Colors.white,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

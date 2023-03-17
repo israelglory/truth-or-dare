@@ -48,6 +48,7 @@ class PlayOnlineController extends GetxController {
             try {
               inProgress = true;
               update();
+              Get.back();
               final userCredential =
                   await FirebaseAuth.instance.signInAnonymously();
 
@@ -122,6 +123,7 @@ class PlayOnlineController extends GetxController {
           } else {
             inProgress = true;
             update();
+            Get.back();
             final userCredential =
                 await FirebaseAuth.instance.signInAnonymously();
             log(userCredential.user!.uid);
